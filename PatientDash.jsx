@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SlideBar from "./SlideBar";
 import LogoutProfile from "./LogoutProfile";
+import UpdateProfile from "./UpdateProfile";
 import Header from "./Header";
 
 // Mock patient data
@@ -44,15 +45,10 @@ const PatientDash = () => {
   };
 
   return (
-    <>
-      <Header isLoggedIn={true} toggleSidebar={() => setShowSidebar(!showSidebar)} handleLogout={handleLogout} />
-      <div className="pt-20 flex">
-        {showSidebar && (
-          <SlideBar handleLogout={handleLogout} setCurrentView={() => {}} />
-        )}
-        <div className="flex-1 p-6">
-          <h2 className="text-2xl font-bold text-pink-700 mb-4">Welcome {patientInfo.name}!</h2>
-          <p className="text-lg mb-4">Blood Group: <strong>{patientInfo.bloodGroup}</strong> | Category: <strong>{patientInfo.category}</strong></p>
+      <div className="min-h-screen bg-white mt-24">
+        <div className="">
+          <h1 className="text-4xl font-bold mb-5 text-center">Welcome <span className="text-5xl font-bold text-[#840000]">{patientInfo.name}!</span></h1>
+          <p className="text-2xl font-light text-center mb-5">Blood Group: <strong>{patientInfo.bloodGroup}</strong> | Category: <strong>{patientInfo.category}</strong></p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDonors.map((donor, index) => (
               <div key={index} className="bg-white shadow-xl p-4 rounded-xl border border-pink-100">
@@ -66,16 +62,15 @@ const PatientDash = () => {
             ))}
           </div>
         </div>
-      </div>
 
       {showLogoutPopup && (
         <LogoutProfile
-          setShowLogoutPopup={setShowLogoutPopup}
-          setIsLoggedIn={() => {}}
-          onLogout={() => window.location.href = "/"}
+        setShowLogoutPopup={setShowLogoutPopup}
+        setIsLoggedIn={() => {}}
+        onLogout={() => window.location.href = "/"}
         />
       )}
-    </>
+      </div>
   );
 };
 
