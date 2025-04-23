@@ -1,13 +1,23 @@
 import React, {useState} from 'react'
 
-const UpdateProfile = () => {
-    const [form, setForm] = useState({
-        name: "Areeba Khan",
+const UpdateProfile = ({ userType }) => {
+  const donorProfile = {
+    name: "Areeba Khan",
         email: "areeba@example.com",
         phone: "03001234567",
         bloodGroup: "B+",
         city: "Lahore"
-      });
+      };
+      
+      const patientProfile = {
+        name: "Zara",
+        email: "zara@example.com",
+        phone: "03111234567",
+        bloodGroup: "A+",
+        city: "Karachi",
+        category: "2 week"
+      };
+      const [form, setForm] = useState(userType === "patient" ? patientProfile : donorProfile);
     
       const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
