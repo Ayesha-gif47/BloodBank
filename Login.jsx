@@ -29,11 +29,18 @@ const Login = ({ onLoginSuccess, onClose }) => {
 
     // If validation passes
     toast.success("Login successful!");
+    
     if (email === "donor@gmail.com" && password === "123456") {
-      onLoginSuccess(); // This must be a function from props
+      toast.success("Donor login successful!");
+      setTimeout(() => onLoginSuccess("donor"), 1500);
+    } else if (email === "patient@gmail.com" && password === "123456") {
+      toast.success("Patient login successful!");
+      setTimeout(() => onLoginSuccess("patient"), 1500);
     } else {
-      alert("Invalid credentials!");
-    }  
+      toast.error("Invalid credentials!");
+    }
+    
+
     // Proceed with authentication (e.g., API call)
     console.log("LoginForm props:", { onLoginSuccess, onClose })
   };
