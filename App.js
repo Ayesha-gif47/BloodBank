@@ -25,6 +25,8 @@ function App() {
   const [currentView, setCurrentView] = useState("dashboard");
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [userType, setUserType] = useState(null);  // 'donor' or 'patient'
+
 
   const toggleSidebar = () => setShowSidebar(!showSidebar);
 
@@ -40,13 +42,15 @@ function App() {
     navigate("/"); // Redirect to home page after logout
   };
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (type) => {
     setIsLoggedIn(true);
+    setUserType(type); // Store whether it's a donor or patient
     setShowLoginModal(false);
     setShowSidebar(true);
     setCurrentView("dashboard");
-    navigate("/DonorDash");
+    navigate(type === "donor" ? "/DonorDash" : "/PatientDash");
   };
+  
 
   const handleRealLogout = () => {
     setIsLoggedIn(false);
@@ -70,10 +74,8 @@ function App() {
         <Route path='/RequestBlood' element={<RequestBlood />} />
         <Route path='/Donor' element={<Donor />} />
         <Route path='/Patient' element={<Patient />} />
-        <Route path='/PatientDash' element={<PatientDash />} />
         <Route path="/FAQs" element={<FAQs />} />
         <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-        {/* <Route path="/DonorDash" element={isLoggedIn ? <DonorDash /> : <Login onLoginSuccess={handleLoginSuccess} />} /> */}
         <Route path="/LogoutProfile" element={<LogoutProfile onLogout={handleLogoutSuccess} />} />
       </Routes>
  <Header isLoggedIn={isLoggedIn} toggleSidebar={toggleSidebar} />
@@ -87,8 +89,8 @@ function App() {
         )}
 
         <div className="flex-1 p-4">
-          {currentView === "dashboard" && isLoggedIn && <DonorDash />}
-          {currentView === "update" && <UpdateProfile />}
+          {currentView === "dashboard" && isLoggedIn && (userType === "donor" ? <DonorDash /> : <PatientDash />)}
+          {currentView === "update" && <UpdateProfile userType={userType} />}
         </div>
       </div>
       {showLogoutPopup && (
